@@ -212,19 +212,44 @@ export class AppComponent {
     // Add more projects here...
   ];
 
-  categoryFilter: Category | undefined;
-  tagFilter: Tag | undefined;
+  // Define filter variables
+  categoryFilter: Category | null = null;
+  tagFilter: Tag | null = null;
 
+  // Filter projects based on category
   setCategoryFilter(category: Category) {
     this.categoryFilter = category;
   }
 
+  // Filter projects based on tag
   setTagFilter(tag: Tag) {
     this.tagFilter = tag;
   }
 
+  // Clear category filter
+  clearCategoryFilter() {
+    this.categoryFilter = null;
+  }
+
+  // Clear tag filter
+  clearTagFilter() {
+    this.tagFilter = null;
+  }
+
+  // Clear all filters
   clearFilters() {
-    this.categoryFilter = undefined;
-    this.tagFilter = undefined;
+    this.categoryFilter = null;
+    this.tagFilter = null;
+  }
+
+  // Determine if a project should be hidden based on filters
+  shouldHideProject(project: Project): boolean {
+    if (
+      (this.categoryFilter && project.category !== this.categoryFilter) ||
+      (this.tagFilter && !project.tags.some((tag) => tag === this.tagFilter))
+    ) {
+      return true; // Hide the project
+    }
+    return false; // Show the project
   }
 }

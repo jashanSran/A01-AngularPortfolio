@@ -4,48 +4,92 @@
 </header>
 
 <!-- Main Content -->
-<main>
+<main class="container">
+  <!-- Projects -->
+  <section class="projects">
+    <h2>Projects</h2>
+    <div class="project-grid">
+      <div
+        class="project"
+        *ngFor="let project of projects"
+        [class.hidden]="shouldHideProject(project)"
+      >
+        <!-- Display project details here -->
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.excerpt }}</p>
+        <!-- Display category if set -->
+        <p *ngIf="project.category">
+          Category:
+          <span (click)="setCategoryFilter(project.category)">
+            {{ project.category.name }}
+          </span>
+        </p>
+        <!-- Display tags if available -->
+        <p *ngIf="project.tags.length > 0">
+          Tags:
+          <span *ngFor="let tag of project.tags" (click)="setTagFilter(tag)">
+            {{ tag.name }}
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Secondary Navigation -->
   <section class="filters">
     <h2>Filter Projects</h2>
+    <!-- Filters section -->
+    <div>
+      <h3 *ngIf="categoryFilter || tagFilter">Active Filters:</h3>
+      <ul>
+        <!-- Display active category filter -->
+        <li *ngIf="categoryFilter">
+          {{ categoryFilter.name }}
+          <button (click)="clearCategoryFilter()">Remove</button>
+        </li>
+        <!-- Display active tag filter -->
+        <li *ngIf="tagFilter">
+          {{ tagFilter.name }}
+          <button (click)="clearTagFilter()">Remove</button>
+        </li>
+      </ul>
+      <!-- Clear filters button -->
+      <button (click)="clearFilters()" *ngIf="categoryFilter || tagFilter">
+        Clear Filters
+      </button>
+    </div>
+
     <!-- Display category filters -->
     <div *ngIf="categories.length > 0">
       <h3>Categories:</h3>
       <ul>
         <li
           *ngFor="let category of categories"
+          [class.active]="category.id === categoryFilter?.id"
           (click)="setCategoryFilter(category)"
         >
           {{ category.name }}
         </li>
       </ul>
     </div>
+
     <!-- Display tag filters -->
     <div *ngIf="tags.length > 0">
       <h3>Tags:</h3>
       <ul>
-        <li *ngFor="let tag of tags" (click)="setTagFilter(tag)">
+        <li
+          *ngFor="let tag of tags"
+          [class.active]="tag.id === tagFilter?.id"
+          (click)="setTagFilter(tag)"
+        >
           {{ tag.name }}
         </li>
       </ul>
-    </div>
-    <!-- Clear filters button -->
-    <button (click)="clearFilters()">Clear Filters</button>
-  </section>
-
-  <!-- Projects -->
-  <section class="projects">
-    <h2>Projects</h2>
-    <div *ngFor="let project of projects">
-      <!-- Display project details here -->
-      <h3>{{ project.title }}</h3>
-      <p>{{ project.excerpt }}</p>
-      <!-- Add more project details as needed -->
     </div>
   </section>
 </main>
 
 <!-- Footer -->
 <footer class="footer">
-  <p>&copy; {{ date }} - {{ author }}</p>
+  <p>&copy; {{ date }} {{ author }}</p>
 </footer>
