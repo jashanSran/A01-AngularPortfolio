@@ -12,7 +12,9 @@
       <div
         class="project"
         *ngFor="let project of projects"
-        [class.hidden]="shouldHideProject(project)"
+        [class.hidden]="
+          categoryFilter && project.category?.id !== categoryFilter.id
+        "
       >
         <!-- Display project details here -->
         <h3>{{ project.title }}</h3>
@@ -68,7 +70,6 @@
         <li
           *ngFor="let category of categories"
           [class.active]="category.id === categoryFilter?.id"
-          (click)="setCategoryFilter(category)"
         >
           {{ category.name }}
         </li>
@@ -79,11 +80,7 @@
     <div *ngIf="tags.length > 0">
       <h3>Tags:</h3>
       <ul>
-        <li
-          *ngFor="let tag of tags"
-          [class.active]="tag.id === tagFilter?.id"
-          (click)="setTagFilter(tag)"
-        >
+        <li *ngFor="let tag of tags" [class.active]="tag.id === tagFilter?.id">
           {{ tag.name }}
         </li>
       </ul>

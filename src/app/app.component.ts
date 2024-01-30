@@ -241,15 +241,4 @@ export class AppComponent {
     this.categoryFilter = null;
     this.tagFilter = null;
   }
-
-  // Determine if a project should be hidden based on filters
-  shouldHideProject(project: Project): boolean {
-    if (
-      (this.categoryFilter && project.category !== this.categoryFilter) ||
-      (this.tagFilter && !project.tags.some((tag) => tag === this.tagFilter))
-    ) {
-      return true; // Hide the project
-    }
-    return false; // Show the project
-  }
 }

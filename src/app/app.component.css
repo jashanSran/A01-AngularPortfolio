@@ -46,6 +46,15 @@ button {
 .hidden {
   display: none;
 }
+
+span {
+  cursor: pointer;
+}
+
+.active {
+  background-color: #cccccc;
+}
+
 .footer {
   text-align: right;
   font-style: italic;
